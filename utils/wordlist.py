@@ -107,6 +107,7 @@ def get_word_hints(target_word, guess):
 
 def format_guess_with_hints(guess, hints):
     """Format a guess with color hints for display."""
+    # Import moved here to avoid circular import issues
     from game.ui import Colors
     
     output = ""

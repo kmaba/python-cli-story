@@ -75,7 +75,7 @@ class Hallway:
         return False
     
     def get_current_room(self):
-        """Get the current room if player is on a room marker."""
+        """Get the current room name if player is standing on a room location."""
         cell = self.map_data[self.player_y][self.player_x]
         if cell in self.ROOMS:
             return self.ROOMS[cell]

@@ -32,6 +32,33 @@ class Story:
         self.time_system = time_system
         self.current_node = "start"
         self.story_nodes = self._create_story_nodes()
+    
+    # Helper functions for node actions
+    @staticmethod
+    def _reduce_stress_increase_popularity(p, ts):
+        """Reduce stress and increase popularity."""
+        p.change_stress(-15)
+        p.change_popularity(5)
+    
+    @staticmethod
+    def _new_friend_jordan(p, ts):
+        """Make friends with Jordan."""
+        p.set_relationship("Jordan", 60)
+        p.change_popularity(10)
+        p.add_achievement("Made a new friend")
+    
+    @staticmethod
+    def _lunch_alone_recovery(p, ts):
+        """Recover stress and energy from alone time."""
+        p.change_stress(-20)
+        p.change_energy(15)
+    
+    @staticmethod
+    def _afternoon_classes_complete(p, ts):
+        """Complete afternoon classes."""
+        p.add_grade_points('history', 10)
+        p.add_grade_points('pe', 10)
+        p.change_energy(-20)
         
     def _create_story_nodes(self):
         """Create all story nodes and choices."""
@@ -497,7 +524,7 @@ It's nice to have friends who understand what you're going through.
             [
                 ("Finish lunch and prepare for afternoon classes", "afternoon_prep")
             ],
-            action=lambda p, ts: (p.change_stress(-15), p.change_popularity(5))
+            action=Story._reduce_stress_increase_popularity
         )
         
         # Lunch with transfer student
@@ -520,7 +547,7 @@ You made a new friend today!
             [
                 ("Finish lunch and prepare for afternoon classes", "afternoon_prep")
             ],
-            action=lambda p, ts: (p.set_relationship("Jordan", 60), p.change_popularity(10), p.add_achievement("Made a new friend"))
+            action=Story._new_friend_jordan
         )
         
         # Lunch alone
@@ -537,7 +564,7 @@ how you've done so far and psyche yourself up for the afternoon.
             [
                 ("Finish lunch and prepare for afternoon classes", "afternoon_prep")
             ],
-            action=lambda p, ts: (p.change_stress(-20), p.change_energy(15))
+            action=Story._lunch_alone_recovery
         )
         
         # Afternoon prep
@@ -578,7 +605,7 @@ Before you know it, the final bell rings.
             [
                 ("School's over! Time to head home", "end_of_day")
             ],
-            action=lambda p, ts: (p.add_grade_points('history', 10), p.add_grade_points('pe', 10), p.change_energy(-20))
+            action=Story._afternoon_classes_complete
         )
         
         # End of day
